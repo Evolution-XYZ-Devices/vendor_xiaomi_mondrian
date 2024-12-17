@@ -131,11 +131,8 @@ function configure_memory_parameters() {
 
 	configure_zram_parameters
 	configure_read_ahead_kb_values
-	if [ "$ProductName" == "liuqin" ] || [ "$ProductName" == "yudi" ]; then
-		echo 200 > /proc/sys/vm/swappiness
-	else
-		echo 100 > /proc/sys/vm/swappiness
-	fi
+
+	echo 100 > /proc/sys/vm/swappiness
     echo 1 > /proc/sys/vm/watermark_scale_factor
     echo 0 > /proc/sys/vm/watermark_boost_factor
 
@@ -191,10 +188,3 @@ case "$chipfamily" in
 	;;
 esac
 
-ProductName=`getprop ro.product.name`
-if [ "$ProductName" == "liuqin" ] || [ "$ProductName" == "yudi" ]; then
-	echo 0 > /sys/block/zram0/memory_freeze
-	sleep 600
-	echo 1 > /sys/block/zram0/memory_freeze
-	echo 100 > /proc/sys/vm/swappiness
-fi
